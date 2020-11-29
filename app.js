@@ -106,6 +106,7 @@ function init() {
   particles = [];
   scoreEl.innerHTML = 0;
   finalScore.innerHTML = 0;
+  score = 0;
 }
 function spawnEnemies() {
   setInterval(() => {
