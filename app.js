@@ -113,14 +113,14 @@ function spawnEnemies() {
     const maxR = 30;
     const minR = 10;
     const r = Math.random() * (maxR - minR) + minR;
-    let x1;
-    let y1;
+    let x1 = 0;
+    let y1 = 0;
     if (Math.random() < 0.5) {
-      x1 = Math.random() < 0.5 ? 0 - r : x * 2 + r;
-      y1 = Math.random() * (y * 2);
+      x1 = Math.random() < 0.5 ? 0 - r : canvas.width + r;
+      y1 = Math.random() * canvas.height;
     } else {
-      x1 = Math.random() * (x * 2);
-      y1 = Math.random() < 0.5 ? 0 - r : y * 2 + r;
+      x1 = Math.random() * canvas.width;
+      y1 = Math.random() < 0.5 ? 0 - r : canvas.height + r;
     }
     const color = `hsl(${Math.random() * 360} , 50%, 50%)`;
     const angle = Math.atan2(y - y1, x - x1);
@@ -134,7 +134,7 @@ function spawnEnemies() {
 function animate() {
   animetionId = requestAnimationFrame(animate);
   c.fillStyle = 'rgba(0,0,0,.1)';
-  c.fillRect(0, 0, x * 2, y * 2);
+  c.fillRect(0, 0, canvas.width, canvas.height);
   player.draw();
   particles.forEach((particle, parIndex) => {
     if (particle.alpha <= 0) {
@@ -187,6 +187,7 @@ function animate() {
             )
           );
         }
+        // Die
         if (enemy.radius - 10 > 10) {
           gsap.to(enemy, {
             radius: enemy.radius - 10,
@@ -196,6 +197,8 @@ function animate() {
           }, 0);
         } else {
           score += 30;
+          scoreEl.innerHTML = score;
+          restart.innerHTML = 'Try again';
           setTimeout(() => {
             enemies.splice(index, 1);
             projectiles.splice(pIndex, 1);
