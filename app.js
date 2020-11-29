@@ -40,17 +40,23 @@ class Projectile {
 const x = canvas.width / 2;
 const y = canvas.height / 2;
 const player = new Player(x, y, 30, 'blue');
-player.draw();
 const projectiles = [];
 
 function animate() {
   requestAnimationFrame(animate);
+  c.clearRect(0, 0, x * 2, y * 2);
+  player.draw();
   projectiles.forEach((projectile) => {
     projectile.update();
   });
 }
 
 addEventListener('click', (event) => {
-  projectiles.push(new Projectile(x, y, 5, '#333', { x: 1, y: 1 }));
+  const angle = Math.atan2(event.clientY - y, event.clientX - x);
+  const velocity = {
+    x: Math.cos(angle),
+    y: Math.sin(angle),
+  };
+  projectiles.push(new Projectile(x, y, 5, '#333', velocity));
 });
 animate();
