@@ -1,8 +1,12 @@
 const canvas = document.querySelector('canvas');
 const scoreEl = document.querySelector('.scoreEl');
+const scoreEl2 = document.querySelector('.scoreEl2');
+const scorechart = document.querySelector('.scorechart');
 const restart = document.querySelector('.restart');
 const op = document.querySelector('.op');
 const finalScore = document.querySelector('.finalScore');
+const msg = document.querySelector('.msg');
+const point = document.querySelector('.point');
 const c = canvas.getContext('2d');
 let animetionId;
 let score = 0;
@@ -99,38 +103,62 @@ let projectiles = [];
 let enemies = [];
 let particles = [];
 
+//
 function init() {
+  scorechart.style.display = 'block';
+
   player = new Player(x, y, 10, '#fff');
   projectiles = [];
   enemies = [];
   particles = [];
+  finalScore.style.display = 'block';
+  point.style.display = 'block';
   scoreEl.innerHTML = 0;
   finalScore.innerHTML = 0;
+  msg.innerHTML = 'Yo Boiii!!!!😛😛';
+  // noob();
   score = 0;
 }
-function spawnEnemies() {
-  setInterval(() => {
-    const maxR = 30;
-    const minR = 10;
-    const r = Math.random() * (maxR - minR) + minR;
-    let x1 = 0;
-    let y1 = 0;
-    if (Math.random() < 0.5) {
-      x1 = Math.random() < 0.5 ? 0 - r : canvas.width + r;
-      y1 = Math.random() * canvas.height;
-    } else {
-      x1 = Math.random() * canvas.width;
-      y1 = Math.random() < 0.5 ? 0 - r : canvas.height + r;
-    }
-    const color = `hsl(${Math.random() * 360} , 50%, 50%)`;
-    const angle = Math.atan2(y - y1, x - x1);
-    const velocity = {
-      x: Math.cos(angle),
-      y: Math.sin(angle),
-    };
-    enemies.push(new Enemy(x1, y1, r, color, velocity));
-  }, 1000);
-}
+// function noob() {
+//   if (score < 500) {
+//     console.log('L-1');
+//     msg.innerHTML = 'Mah!! You are ultra noob.. 😂🤦‍♂️';
+//   } else if (score < 1000) {
+//     console.log('L-2');
+//     msg.innerHTML = 'Hmm!! So you are noob.. 😆😛';
+//   } else if (score <= 2000) {
+//     msg.innerHTML = 'Good!! But you can do better.. 😃❤';
+//   } else if (score <= 4000) {
+//     msg.innerHTML = 'Excellent!! You have done great job.. 😊🎇';
+//   } else if (score <= 8000) {
+//     msg.innerHTML = 'Outstanding!! You are certified pero.. 😂😆';
+//   } else {
+//     msg.innerHTML = '🎊🤩--OP vai OP-- You are a monster..🤩🎊';
+//   }
+// }
+//
+const nww = setInterval(() => {
+  const maxR = 30;
+  const minR = 10;
+  const r = Math.random() * (maxR - minR) + minR;
+  let x1 = 0;
+  let y1 = 0;
+  if (Math.random() < 0.5) {
+    x1 = Math.random() < 0.5 ? 0 - r : canvas.width + r;
+    y1 = Math.random() * canvas.height;
+  } else {
+    x1 = Math.random() * canvas.width;
+    y1 = Math.random() < 0.5 ? 0 - r : canvas.height + r;
+  }
+  const color = `hsl(${Math.random() * 360} , 50%, 50%)`;
+  const angle = Math.atan2(y - y1, x - x1);
+  const velocity = {
+    x: Math.cos(angle),
+    y: Math.sin(angle),
+  };
+  enemies.push(new Enemy(x1, y1, r, color, velocity));
+}, 1500);
+//
 function animate() {
   animetionId = requestAnimationFrame(animate);
   c.fillStyle = 'rgba(0,0,0,.1)';
@@ -162,6 +190,8 @@ function animate() {
     const distance = Math.hypot(player.x - enemy.x, player.y - enemy.y);
     if (distance - enemy.radius - player.radius < 1) {
       cancelAnimationFrame(animetionId);
+      let noise = new Audio('./noise.mp3');
+      noise.play();
       op.style.display = 'flex';
       finalScore.innerHTML = score;
     }
@@ -171,6 +201,8 @@ function animate() {
       const dist = Math.hypot(projectile.x - enemy.x, projectile.y - enemy.y);
 
       if (dist - enemy.radius - projectile.radius < 1) {
+        let woh = new Audio('./woh.mp3');
+        woh.play();
         score += 25;
         scoreEl.innerHTML = score;
         for (let i = 0; i < 8; i++) {
@@ -209,6 +241,7 @@ function animate() {
   });
 }
 
+//
 addEventListener('click', (event) => {
   const angle = Math.atan2(event.clientY - y, event.clientX - x);
   const velocity = {
@@ -220,6 +253,5 @@ addEventListener('click', (event) => {
 restart.addEventListener('click', () => {
   init();
   animate();
-  spawnEnemies();
   op.style.display = 'none';
 });
