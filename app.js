@@ -106,7 +106,7 @@ let highest = 0;
 //
 function init() {
   scorechart.style.display = 'block';
-
+  document.querySelector('.msg2').style.display = 'none';
   player = new Player(x, y, 10, '#fff');
   projectiles = [];
   enemies = [];
@@ -119,7 +119,7 @@ function init() {
     scoreEl2.innerHTML = highest;
   }
   finalScore.innerHTML = 0;
-  msg.innerHTML = 'Yeah Boiii!!!!😛😛';
+  msg.innerHTML = 'Yeah Boy..!!!😛😛';
   // noob();
   score = 0;
 }
