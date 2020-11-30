@@ -102,7 +102,7 @@ let player = new Player(x, y, 10, '#fff');
 let projectiles = [];
 let enemies = [];
 let particles = [];
-
+let highest = 0;
 //
 function init() {
   scorechart.style.display = 'block';
@@ -114,8 +114,12 @@ function init() {
   finalScore.style.display = 'block';
   point.style.display = 'block';
   scoreEl.innerHTML = 0;
+  if (highest < score) {
+    highest = score;
+    scoreEl2.innerHTML = highest;
+  }
   finalScore.innerHTML = 0;
-  msg.innerHTML = 'Yo Boiii!!!!😛😛';
+  msg.innerHTML = 'Yeah Boiii!!!!😛😛';
   // noob();
   score = 0;
 }
@@ -205,6 +209,10 @@ function animate() {
         woh.play();
         score += 25;
         scoreEl.innerHTML = score;
+        if (highest < score) {
+          highest = score;
+          scoreEl2.innerHTML = highest;
+        }
         for (let i = 0; i < 8; i++) {
           particles.push(
             new Particle(
@@ -230,6 +238,10 @@ function animate() {
         } else {
           score += 30;
           scoreEl.innerHTML = score;
+          if (highest < score) {
+            highest = score;
+            scoreEl2.innerHTML = highest;
+          }
           restart.innerHTML = 'Try again';
           setTimeout(() => {
             enemies.splice(index, 1);
